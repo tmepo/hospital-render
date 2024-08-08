@@ -1,0 +1,67 @@
+{% extends "hospital/base.html" %}
+{% block title %} Patient List {% endblock %}
+{% block content %}
+<body>
+    <h1>Patients List</h1>
+   
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.0 }}</td>
+                <td>{{ patient.1 }}</td>
+                <td>{{ patient.2 }}</td>
+                <td>{{ patient.3 }}</td>
+                <td>{{ patient.4 }}</td>
+                <td>{{ patient.5 }}</td>
+                <td>{{ patient.6 }}</td>
+                <td>{{ patient.7 }}</td>
+                <td>
+                    <a href="{% url 'update_patient' patient.0 %}">Edit</a>
+                    <a href="{% url 'delete_patient' patient.0 %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="{% url 'add_patient' %}">Add Patient</a>
+</body>
+</html>
+{% endblock %}
+ 

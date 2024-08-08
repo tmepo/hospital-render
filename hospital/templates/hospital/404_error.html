@@ -1,0 +1,17 @@
+{% extends "hospital/base.html"%}
+{% block title %}404 error{% endblock %}
+{% block content %}
+<div class="jumbotron">
+   <center>
+
+    <h1 class="display-4">OPPs!!</h1>
+
+   </center>     <p class="lead">There is an issue loading this page.</p>
+    <hr class="my-4">
+    <p>The requested url is not found.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">Go to home page.</a>
+    </p>
+  </div>
+
+{% endblock %}

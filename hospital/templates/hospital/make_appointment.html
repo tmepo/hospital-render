@@ -1,0 +1,89 @@
+{% extends "hospital/base.html" %}
+{% block title %}Add Patient{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Make an Appointment</h2>
+
+    <form method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        
+        <label for="doctor">Doctor:</label>
+        <select id="doctor" name="doctor_id" required>
+            {% for doctor in doctors %}
+                <option value="{{ doctor.doctor_id }}">{{ doctor.first_name }} {{ doctor.last_name }}</option>
+            {% endfor %}
+        </select>
+        <br><hr>
+        
+        <h5>Patient Information</h5>
+        
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+        <br><hr>
+        
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+        <br><hr>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        <br><hr>
+        
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" required>
+        <br><hr>
+        
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+        <br><hr>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><hr>
+        
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        <br><hr>
+        
+        <h3>Appointment Details</h3>
+        
+        <label for="appointment_date">Date:</label>
+        <input type="date" id="appointment_date" name="appointment_date" required>
+        <span id="date_error" style="color:red;"></span>
+        <br><hr>
+        
+        <label for="appointment_time">Time:</label>
+        <input type="time" id="appointment_time" name="appointment_time" min="09:00" max="17:00" required>
+        <span id="time_error" style="color:red;"></span>
+        <br><hr>
+        
+        <button type="submit">Make Appointment</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        let valid = true;
+
+        document.getElementById("date_error").innerText = "";
+        document.getElementById("time_error").innerText = "";
+
+        const appointmentDate = document.getElementById("appointment_date").value;
+        const today = new Date().toISOString().split("T")[0];
+        if (appointmentDate < today) {
+            document.getElementById("date_error").innerText = "Appointment date must be today or in the future.";
+            valid = false;
+        }
+
+        const appointmentTime = document.getElementById("appointment_time").value;
+        const startTime = "09:00";
+        const endTime = "17:00";
+        if (appointmentTime < startTime || appointmentTime > endTime) {
+            document.getElementById("time_error").innerText = "Appointment time must be between 09:00 and 17:00.";
+            valid = false;
+        }
+
+        return valid;
+    }
+</script>
+{% endblock %}

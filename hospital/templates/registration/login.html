@@ -1,0 +1,21 @@
+{% extends "hospital/base.html"%}
+{% block title %}login{% endblock %}
+{% block content %}
+<div class="class container">
+
+    <h4>Please login to continue....</h4>
+    <h5>Login</h5><br>
+    <div class="container">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <label for="username">Username</label><br>
+            <input type="text" name="username" id="username" required><br>
+            <label for="password">Password</label><br>
+            <input type="password" name="password" id="password" required><br><br>
+            <button type="submit"> login</button>
+            
+        </form>
+    </div>
+</div>
+
+    {% endblock %}

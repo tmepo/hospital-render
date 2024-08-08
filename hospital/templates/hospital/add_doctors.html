@@ -1,0 +1,30 @@
+{% extends "hospital/base.html"%}
+{% block title %}add_Doctor{% endblock %}
+{% block content %}
+<br>
+<body>
+    <div class="container">
+    <h1>Add doctor</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="doctor_id"> Doctor_id:</label>
+        <input type="text" name="doctor_id" required><br><hr>
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" required><br><hr>
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" required><br><hr>
+        <label for="specialization">specialization:</label>
+        <input type="text" name="specialization" required><br><hr>
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" required><br><hr>
+        <label for="email">Email:</label>
+        <input type="text" name="email" required><br><hr>
+        <label for="address">Address:</label>
+        <input type="text" name="address" required><br><hr>
+        <button type="submit">Add</button>
+    </form>
+</div>
+</body>
+
+{% endblock %} 
+    
