@@ -379,7 +379,7 @@ def make_appointment(request):
             cursor.execute(appointment_query, appointment_params)
             appointment_id = cursor.fetchone()[0]
         
-        return redirect('home')  # Redirect to an appropriate page or appointment confirmation page
+        return redirect('index')  # Redirect to an appropriate page or appointment confirmation page
 
     else:
         # Fetch departments and doctors for the form
@@ -545,9 +545,9 @@ def show_doctors(request):
 
 
 
-def home(request):
+def index(request):
 
-    return render(request,"hospital/home.html")
+    return render(request,"hospital/index.html")
 
 def login_user(request):
     if request.method=="POST":
@@ -556,7 +556,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('index')
         
         else:
             messages.success(request,('Hey There is a problem with logging in. Try again..'))
