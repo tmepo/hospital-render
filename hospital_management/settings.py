@@ -14,22 +14,26 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-_69@7p-^9_m%#)8za^it9m0ck)#3a7rfv$qe*azfwt$uig-1d3'
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-_69@7p-^9_m%#)8za^it9m0ck)#3a7rfv$qe*azfwt$uig-1d3'
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ.get("DEBUG","False").lower()=="true"
-# ALLOWED_HOSTS = []
+DEBUG = False
+# DEBUG = os.environ.get("DEBUG","False").lower()=="true"
+ALLOWED_HOSTS = ["hospital-render.onrender.com"]
 
-ALLOWED_HOSTS =os.environ.get("ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS =os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -46,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,20 +82,20 @@ WSGI_APPLICATION = 'hospital_management.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'hospital_database_i0uo',
-#         'USER': 'hospital_database_i0uo_user',
-#         'PASSWORD': 'QyjHNLXDNTEv1jnksT3Khg5v9lXX5KPe',
-#         'HOST': 'dpg-cqqai1d6l47c73ar3lv0-a.oregon-postgres.render.com',
-#         'PORT': '5432',
-#     }
-# }
-database_url = os.environ.get('DATABASE_URL')
 DATABASES = {
-    'default': dj_database_url.parse(database_url)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'hospital_database_i0uo',
+        'USER': 'hospital_database_i0uo_user',
+        'PASSWORD': 'QyjHNLXDNTEv1jnksT3Khg5v9lXX5KPe',
+        'HOST': 'dpg-cqqai1d6l47c73ar3lv0-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
 }
+# database_url = os.environ.get('DATABASE_URL')
+# DATABASES = {
+#     'default': dj_database_url.parse(database_url)
+# }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -136,3 +141,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
