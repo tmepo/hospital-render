@@ -7,6 +7,7 @@ from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from datetime import datetime, time
+from django.contrib import messages
 
 
 
@@ -204,12 +205,14 @@ def add_appointment(request):
         return redirect('index')  # Redirect to an appropriate page or a list of appointments
     
     return render(request, 'hospital/add_appointment.html')
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.db import connection
 
 @login_required
 def add_service(request):
     if request.method == "POST":
-        patient_id = request.POST.get('patient_id')
+        patient_id = request.POST.get('patient_id')  # Get selected patient ID
         service_name = request.POST.get('service_name')
         service_description = request.POST.get('service_description')
         service_total = request.POST.get('service_total')
@@ -219,11 +222,26 @@ def add_service(request):
         VALUES (%s, %s, %s, %s)
         '''
         params = [patient_id, service_name, service_description, service_total]
-        execute_sql(query, params)
+        
+        with connection.cursor() as cursor:
+            cursor.execute(query, params)
         
         return redirect('index')  # Redirect to an appropriate page or a list of services
     
-    return render(request, 'hospital/add_service.html')
+    else:
+        # Fetch patients for the form
+        patient_query = 'SELECT patient_id, first_name, last_name FROM patients'
+        
+        with connection.cursor() as cursor:
+            cursor.execute(patient_query)
+            patients = cursor.fetchall()
+        
+        context = {
+            'patients': [{'patient_id': p[0], 'first_name': p[1], 'last_name': p[2]} for p in patients],
+        }
+        
+        return render(request, 'hospital/add_service.html', context)
+
 
 
 @login_required
@@ -292,7 +310,23 @@ def add_billing(request):
         
         return redirect('index')  # Redirect to an appropriate page or a list of billing records
     
-    return render(request, 'hospital/add_billing.html')
+    else:
+        patient_query = '''
+        SELECT p.patient_id, p.first_name, p.last_name, s.service_total
+        FROM patients p
+        JOIN services s ON p.patient_id = s.patient_id
+    '''
+    
+    with connection.cursor() as cursor:
+        cursor.execute(patient_query)
+        patients = cursor.fetchall()
+    
+    context = {
+        'patients': [{'patient_id': p[0], 'first_name': p[1], 'last_name': p[2], 'service_total': p[3]} for p in patients],
+    }
+
+    return render(request, 'hospital/add_billing.html', context)
+
 
 
 
@@ -341,7 +375,7 @@ def delete_billing(request, billing_id):
     with connection.cursor() as cursor:
         cursor.execute(query, [billing_id])
     
-    return redirect('index')  # Redirect to an appropriate page or a list of billing records
+    return redirect('view_billing')  # Redirect to an appropriate page or a list of billing records
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -378,13 +412,15 @@ def make_appointment(request):
         with connection.cursor() as cursor:
             cursor.execute(appointment_query, appointment_params)
             appointment_id = cursor.fetchone()[0]
+            
+            messages.success(request, "Appointment successfully booked!")
         
-        return redirect('home')  # Redirect to an appropriate page or appointment confirmation page
+        return redirect('make_appointment')  # Redirect to an appropriate page or appointment confirmation page
 
     else:
         # Fetch departments and doctors for the form
         # departments_query = 'SELECT id, name FROM departments'
-        doctors_query = 'SELECT doctor_id, first_name, last_name FROM doctors'
+        doctors_query = 'SELECT doctor_id, first_name, last_name , specialization FROM doctors'
         
         with connection.cursor() as cursor:
             # cursor.execute(departments_query)
@@ -395,7 +431,7 @@ def make_appointment(request):
         
         context = {
             # 'departments': [{'id': d[0], 'name': d[1]} for d in departments],
-            'doctors': [{'doctor_id': d[0], 'first_name': d[1], 'last_name': d[2]} for d in doctors],
+            'doctors': [{'doctor_id': d[0], 'first_name': d[1], 'last_name': d[2] , 'specialization': d[3]} for d in doctors],
         }
         
         return render(request, 'hospital/make_appointment.html', context)
@@ -498,10 +534,10 @@ def update_appointment(request, appointment_id):
 def view_appointments(request):
     # Fetch all appointments along with their related doctor and patient information
     appointments_query = '''
-    SELECT a.id, a.appointment_date, a.appointment_time, a.service_id, a.doctor_id, a.patient_id, 
-           d.first_name as doctor_first_name, d.last_name as doctor_last_name,
-           p.first_name as patient_first_name, p.last_name as patient_last_name
-    FROM appoinments a
+    SELECT a.id, a.appointment_date, a.appointment_time,  a.patient_id,  concat(p.first_name,' ',p.last_name) as "patient name", a.service_id, a.doctor_id,
+    concat(d.first_name,' ',d.last_name) "doctor name"
+
+     FROM appoinments a
     JOIN doctors d ON a.doctor_id = d.doctor_id
     JOIN patients p ON a.patient_id = p.patient_id
     '''
@@ -515,8 +551,6 @@ def view_appointments(request):
     }
     
     return render(request, 'hospital/view_appointments.html', context)
-
-
 
 @login_required
 def delete_appointment(request, appointment_id):
@@ -534,6 +568,32 @@ def index(request):
         cursor.execute(query)
         patients = cursor.fetchall()
     return render(request, 'hospital/show_patients.html', {'patients': patients})
+
+@login_required
+def view_billing(request):
+    query = '''select b.billing_id,  p.first_name , p.last_name , s.service_name , s.service_description,  b.total_amount , b.payment_status
+    from patients p
+    inner join services s on s.patient_id = p.patient_id 
+    inner join billing b on b.patient_id = p.patient_id 
+    
+    '''
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        combined_list = cursor.fetchall()
+    
+    context = {
+        'combined_list': [
+            {   'billing_id': c[0],
+                'patient_name': f"{c[1]} {c[2]}",
+                'service_name': f"{c[3]}",
+                'service_description' : f"{c[4]}",
+                'total_amount': f"{c[5]}",
+                'payment_status': f"{c[6]}",
+            } for c in combined_list
+        ],
+    }
+    
+    return render(request, 'hospital/view_billing.html', context)
 
 @login_required
 def show_doctors(request):
@@ -563,6 +623,7 @@ def login_user(request):
             return redirect('login')
     else:
         return render(request,'registration/login.html')
+    
 
 def logout_user(request):
     logout(request)

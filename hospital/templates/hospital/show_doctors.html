@@ -3,29 +3,8 @@
 {% block content %}
 <body>
     <h1>Doctors List</h1>
-   
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-        }
-    </style>
-    
-    <table>
+
+    <table id="hospital" class="display nowrap" style="width:100%" >
         <thead>
             <tr>
                 <th>Doctor Id</th>

@@ -1,56 +1,69 @@
 
 <nav class="navbar navbar-expand-lg text-bg-secondary p-1">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
-          </li>
-        </li>
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'contact' %}">Contact</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'about' %}">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'make_appointment' %}">Make an Appointment</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownPatients" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Patients
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownPatients">
-            <li><a class="dropdown-item" href="{% url 'add_patient' %}">Add Patient</a></li>
-            <li><a class="dropdown-item" href="{% url 'index' %}">View Patients</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownDoctors" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Doctors
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownDoctors">
-            <li><a class="dropdown-item" href="{% url 'add_doctor' %}">Add Doctor</a></li>
-            <li><a class="dropdown-item" href="{% url 'show_doctors' %}">View Doctors</a></li>
-          </ul>
-        </li>
-    <li class="nav-item" id="split">
-      <a class="nav-link active" aria-current="page" href="{% url 'viewappointment' %}">Appointments</a>
-  </li>
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="{%  url 'logout_user'%}">Logout</a>
-    </li> 
-      {% else %}
-    </li>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="{%  url 'login'%}">Login</a>
-    </li>
-      {% endif %}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'contact' %}">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'about' %}">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'make_appointment' %}">Make an Appointment</a>
+      </li>
+      {% if user.is_authenticated %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownPatients" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Patients
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownPatients">
+          <li><a class="dropdown-item" href="{% url 'add_patient' %}">Add Patient</a></li>
+          <li><a class="dropdown-item" href="{% url 'index' %}">View Patients</a></li>
         </ul>
-    </div>
-  </nav>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownDoctors" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Doctors
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownDoctors">
+          <li><a class="dropdown-item" href="{% url 'add_doctor' %}">Add Doctor</a></li>
+          <li><a class="dropdown-item" href="{% url 'show_doctors' %}">View Doctors</a></li>
+        </ul>
+      </li>
+  <li class="nav-item" id="split">
+    <a class="nav-link active" aria-current="page" href="{% url 'viewappointment' %}">Appointments</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{% url 'add_service' %}">services</a>
+</li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownDoctors" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Billing
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdownDoctors">
+    <li><a class="dropdown-item" href="{% url 'add_billing' %}">Add Billing</a></li>
+    <li><a class="dropdown-item" href="{% url 'view_billing' %}">View Billing</a></li>
+  </ul>
+</li>
+
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{%  url 'logout_user'%}">Logout</a>
+  </li> 
+    {% else %}
+  </li>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{%  url 'login'%}">Login</a>
+  </li>
+    {% endif %}
+      </ul>
+  </div>
+</nav>

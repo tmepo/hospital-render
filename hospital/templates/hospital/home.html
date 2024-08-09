@@ -116,7 +116,7 @@
                     <li class="fas fa-phone"><a href="tel:+1122334455">Ambulance Service: +977 2233322</a></li>
                     <li class="fas fa-plus"><a href="{% url 'make_appointment' %}">Make Appointment</a></li>
                     <div class="col-lg-3 col-sm-6 mydivstyle" >
-                      <h4><i </i> </h4>
+                      <h4><i></i> </h4>
                       <a class="nav-link active" href=""> </a>
                     </div>
                 </ul>
@@ -126,6 +126,33 @@
                   <p class="fa fa-map-marker-alt"><a href="https://www.google.com/maps/place/IOE,+Thapathali+Campus/@27.6940687,85.3177808,17.3z/data=!4m6!3m5!1s0x39eb19ae08c068d9:0x475bed1f66d060c!8m2!3d27.6940347!4d85.3188261!16s%2Fm%2F05zhjq0?authuser=0&entry=ttu">Location</a></p>
                 </div>
             </div>
+        </div>
+        <div class= "contailer-fluid" id="doctors">
+            <div class="row">
+                <div class ="col-md-12">
+                    <h4 class="text-center text-primary">Meet Our Team</h4>
+                    <h1 class="text-center">Specialization Doctors</h1>
+                </div>
+            </div>
+           <div class="row owl-carousel owl-theme" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div class="card shadow text-center items" style="flex: 0 0 30%; margin: 10px;">
+                   <div class="card-body profile-card">
+                        <img class="img-thumbnail rounded-circle border-0" src="{% static 'images/doctor2.jpg'%}" style="height:100px; width:100px;">
+                        <h4 class="card-title" style="font-size: 18px;">Dr Joe Biden</h4>
+                        <h6 class= "card-subtitle">Cardiologist</h6>
+                        <p class="card-text">MBBS, MS(TU), FMAS ,DMAS(WLH)</p>
+                   </div>
+                </div>
+                <div class="card shadow text-center items" style="flex: 0 0 30%; margin: 10px;">
+                   <div class="card-body profile-card">
+                        <img class="img-thumbnail rounded-circle border-0" src="{% static 'images/doctor1.jpg'%}" style="height:100px; width:100px;">
+                        <h4 class="card-title" style="font-size: 18px;">Dr Kamal Harris</h4>
+                        <h6 class= "card-subtitle">Neurosurgeon</h6>
+                        <p class ="card-text">MBBS, MS(TU), FMAS ,DMAS(WLH)</p>
+                   </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,27 +1,49 @@
 {% extends "hospital/base.html"%}
-{% block title %}add_Doctor{% endblock %}
+{% block title %}add_billing{% endblock %}
 {% block content %}
 <br>
 <body>
     <div class="container">
-    <h1>Add doctor</h1>
+    <h1>Add Billing</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="total_amount">Total Amount:</label>
-        <input type="number" step="0.01" id="total_amount" name="total_amount" required><br>
+          
+        <label for="patient">Patient:</label>
+        <select id="patient" name="patient_id" required>
+            <option value="">Select a patient</option>
+            {% for patient in patients %}
+            <option value="{{ patient.patient_id }}" data-service-total="{{ patient.service_total }}">
+                {{ patient.first_name }} {{ patient.last_name }} (ID: {{ patient.patient_id }})
+            </option>
+            {% endfor %}
+        </select>
+        <br><hr>
+        
+        <label for="total_amount">Total amount:</label>
+        <input type="text" id="total_amount" name="total_amount" readonly>
+        <br><hr>
+        
+        <script>
+            document.getElementById('patient').addEventListener('change', function() {
+                // Get the selected option
+                var selectedPatient = this.options[this.selectedIndex];
+                // Get the service total from the data attribute
+                var serviceTotal = selectedPatient.getAttribute('data-service-total');
+                // Update the total amount field
+                document.getElementById('total_amount').value = serviceTotal;
+            });
+        </script>
+        
+        <label for="appointment_id">Appointment ID:</label>
+        <input type="number" id="appointment_id" name="appointment_id" required><br>
+        
         
         <label for="payment_status">Payment Status:</label>
         <input type="text" id="payment_status" name="payment_status" required><br>
         
         <label for="payment_date">Payment Date:</label>
         <input type="date" id="payment_date" name="payment_date" required><br>
-        
-        <label for="patient_id">Patient ID:</label>
-        <input type="number" id="patient_id" name="patient_id" required><br>
-        
-        <label for="appointment_id">Appointment ID:</label>
-        <input type="number" id="appointment_id" name="appointment_id" required><br>
-        
+  
         <button type="submit">Add Billing</button>
     </form>
 </div>

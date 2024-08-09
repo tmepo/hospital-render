@@ -1,8 +1,19 @@
 {% extends "hospital/base.html" %}
-{% block title %}Add Patient{% endblock %}
+{% block title %}Make an Appointment{% endblock %}
 {% block content %}
 <div class="container">
     <h2>Make an Appointment</h2>
+
+    <!-- Display success message -->
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <form method="post" onsubmit="return validateForm()">
         {% csrf_token %}
@@ -10,7 +21,7 @@
         <label for="doctor">Doctor:</label>
         <select id="doctor" name="doctor_id" required>
             {% for doctor in doctors %}
-                <option value="{{ doctor.doctor_id }}">{{ doctor.first_name }} {{ doctor.last_name }}</option>
+            <option value="{{ doctor.doctor_id }}">{{ doctor.first_name }} {{ doctor.last_name }} ({{ doctor.specialization }})</option>
             {% endfor %}
         </select>
         <br><hr>
@@ -61,6 +72,18 @@
     </form>
 </div>
 
+<style>
+    .alert-container {
+        margin: 10px 0;
+    }
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #4CAF50; /* Green for success messages */
+    }
+</style>
+
 <script>
     function validateForm() {
         let valid = true;
@@ -85,5 +108,21 @@
 
         return valid;
     }
+
+    // Redirect to home page after showing success message
+    function showSuccessMessageAndRedirect() {
+        const alertContainer = document.querySelector('.alert-container');
+        if (alertContainer) {
+            alertContainer.style.display = 'block';
+            setTimeout(() => {
+                alertContainer.style.display = 'none';
+                window.location.href = "{% url 'home' %}"; // Adjust the URL if needed
+            }, 2000); // Show for 5 seconds
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        showSuccessMessageAndRedirect();
+    });
 </script>
 {% endblock %}

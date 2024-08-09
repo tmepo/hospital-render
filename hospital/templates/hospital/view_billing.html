@@ -1,0 +1,36 @@
+_{% extends "hospital/base.html" %}
+{% block title %}View Appointments{% endblock %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">Billing</h2>
+   
+    <table id="hospital" class="display nowrap" style="width:100%">
+        <thead>
+            <tr><th>Billing id</th>
+                <th>patient Name</th>
+                <th>services </th>
+                <th>service description</th>
+                <th>total amount</th>
+                <th>payment staus </th>
+                <th>Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in combined_list %}
+            <tr><td>{{ item.billing_id }}</td>
+                <td>{{ item.patient_name }}</td>
+                <td>{{ item.service_name }}</td>
+                <td>{{ item.service_description}}</td>
+                <td>{{ item.total_amount }}</td>
+                <td>{{ item.payment_status }}</td>
+                <td>
+                    <a href="{% url 'update_billing' item.billing_id %}">Edit</a>
+                    <a href="{% url 'delete_billing' item.billing_id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock %}

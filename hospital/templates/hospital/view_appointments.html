@@ -1,32 +1,20 @@
 {% extends "hospital/base.html" %}
 {% block title %}View Appointments{% endblock %}
 {% block content %}
-<body>
-    <h2 style="margin-left: 500px;">List of Appointments</h2>
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">List of Appointments</h2>
     
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
-   
-    <table>
+    <table id="hospital" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>Appointment Id</th>
                 <th>Appointment Date</th>
                 <th>Appointment Time</th>
+                <th>Patient Id</th>
+                <th>Patient Name</th>
                 <th>Service Id</th>
                 <th>Doctor Id</th>
-                <th>Patient Id</th>
+                <th>Doctor Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,6 +27,8 @@
                 <td>{{ appointment.3 }}</td>
                 <td>{{ appointment.4 }}</td>
                 <td>{{ appointment.5 }}</td>
+                <td>{{ appointment.6 }}</td>
+                <td>{{ appointment.7 }}</td>
                 <td>
                     <a href="{% url 'update_appointment' appointment.0 %}">Edit</a>
                     <a href="{% url 'delete_appointment' appointment.0 %}">Delete</a>
@@ -51,4 +41,3 @@
     <a href="{% url 'make_appointment' %}">Add Appointment</a>
 </body>
 {% endblock %}
-
