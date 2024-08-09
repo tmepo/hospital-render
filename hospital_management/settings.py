@@ -32,6 +32,7 @@ SECRET_KEY = 'django-insecure-_69@7p-^9_m%#)8za^it9m0ck)#3a7rfv$qe*azfwt$uig-1d3
 DEBUG = False
 # DEBUG = os.environ.get("DEBUG","False").lower()=="true"
 ALLOWED_HOSTS = ["hospital-render.onrender.com"]
+# ALLOWED_HOSTS=[]
 
 # ALLOWED_HOSTS =os.environ.get("ALLOWED_HOSTS").split(" ")
 
