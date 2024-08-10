@@ -470,6 +470,8 @@ def update_appointment(request, appointment_id):
         appointment_date = request.POST.get('appointment_date')
         appointment_time = request.POST.get('appointment_time')
         service_id = request.POST.get('service_id')
+        if service_id == 'None':
+            service_id = None  # Convert empty string to None if not provided
         patient_first_name = request.POST.get('patient_first_name')
         patient_last_name = request.POST.get('patient_last_name')
         patient_age = request.POST.get('patient_age')
@@ -524,6 +526,7 @@ def update_appointment(request, appointment_id):
     }
     
     return render(request, 'hospital/edit_appointment.html', context)
+
 
 
 
