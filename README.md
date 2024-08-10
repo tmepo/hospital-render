@@ -39,7 +39,7 @@ This is a Hospital Management System built with Django for the backend and Postg
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/hospital-management.git
+    git clone https://github.com/tmepo/hospital-management.git
     cd hospital-management
     ```
 
